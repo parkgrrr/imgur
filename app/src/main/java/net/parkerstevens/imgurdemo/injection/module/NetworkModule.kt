@@ -1,7 +1,6 @@
 package net.parkerstevens.imgurdemo.injection.module
 
 import android.content.Context
-import android.util.Log
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -12,6 +11,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
@@ -43,7 +43,7 @@ class NetworkModule(private val context: Context) {
     @Singleton
     internal fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
             HttpLoggingInterceptor { message ->
-                Log.d(javaClass.simpleName, message)
+                Timber.d(message)
             }.setLevel(HttpLoggingInterceptor.Level.BODY)
 
     @Provides

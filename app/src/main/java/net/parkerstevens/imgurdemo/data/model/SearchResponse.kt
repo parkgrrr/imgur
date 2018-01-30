@@ -1,10 +1,13 @@
 package net.parkerstevens.imgurdemo.data.model
 
+import android.annotation.SuppressLint
+import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
 data class Imgurs(
         @Json(name = "data")
-        var data: List<Datum>? = null) {
+        var data: List<ImgurImage>) {
     @Json(name = "success")
     var success: Boolean? = null
     @Json(name = "status")
@@ -12,10 +15,14 @@ data class Imgurs(
 
 }
 
-data class Datum(var id: String? = null) {
+@Parcelize
+@SuppressLint("ParcelCreator")
+data class ImgurImage(var id: String,
+                      @Json(name = "title")
+                      var title: String?,
+                      @Json(name = "link")
+                      var link: String = "") : Parcelable {
 
-    @Json(name = "title")
-    var title: String? = null
     @Json(name = "description")
     var description: Any? = null
     @Json(name = "datetime")
@@ -36,8 +43,6 @@ data class Datum(var id: String? = null) {
     var layout: String? = null
     @Json(name = "views")
     var views: Int? = null
-    @Json(name = "link")
-    var link: String? = null
     @Json(name = "ups")
     var ups: Int? = null
     @Json(name = "downs")
@@ -105,7 +110,7 @@ data class ImageData(@Json(name = "id")
     @Json(name = "views")
     var views: Int? = null
     @Json(name = "bandwidth")
-    var bandwidth: Int? = null
+    var bandwidth: Long? = null
     @Json(name = "vote")
     var vote: Any? = null
     @Json(name = "favorite")

@@ -4,28 +4,24 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
+import kotlinx.android.synthetic.main.item_image.view.*
 import net.parkerstevens.imgurdemo.R
+import net.parkerstevens.imgurdemo.data.model.ImgurImage
+import net.parkerstevens.imgurdemo.util.loadImageFromUrl
 import javax.inject.Inject
 
 class ImgurAdapter @Inject
 constructor() : RecyclerView.Adapter<ImgurAdapter.ImgurViewHolder>() {
 
-    private var pokemonsList: List<String>
-    private var clickListener: ClickListener? = null
+    var imagesList: List<ImgurImage>
+    var clickListener: ClickListener? = null
 
     init {
-        pokemonsList = emptyList<String>()
-    }
-
-    fun setPokemon(pokemons: List<String>) {
-        pokemonsList = pokemons
-    }
-
-    fun setClickListener(clickListener: ClickListener) {
-        this.clickListener = clickListener
+        imagesList = emptyList<ImgurImage>()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImgurViewHolder {
@@ -36,37 +32,42 @@ constructor() : RecyclerView.Adapter<ImgurAdapter.ImgurViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ImgurViewHolder, position: Int) {
-        val pokemon = pokemonsList[position]
-        holder.bind(pokemon)
+        val imgurImage = imagesList[position]
+        holder.bindImage(imgurImage)
     }
 
     override fun getItemCount(): Int {
-        return pokemonsList.size
+        return imagesList.size
     }
 
     interface ClickListener {
-        fun onImageClick(pokemon: String)
+        fun onImageClick(url: String, title: String)
     }
 
     inner class ImgurViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        lateinit var selectedPokemon: String
+        lateinit var selectedImage: ImgurImage
 
-        @BindView(R.id.pokemon_name)
-        @JvmField var pokemonName: TextView? = null
+        @BindView(R.id.image_preview)
+        @JvmField var imgurPreview: ImageView? = null
+
+        @BindView(R.id.image_title)
+        @JvmField var imgurTitle: TextView? = null
 
         init {
             ButterKnife.bind(this, itemView)
             itemView.setOnClickListener {
-                clickListener?.onImageClick(selectedPokemon)
+                clickListener?.onImageClick(selectedImage.link, selectedImage.title ?: " ")
             }
         }
 
-        fun bind(pokemon: String) {
-            selectedPokemon = pokemon
-            pokemonName?.text = String.format("%s%s", pokemon.substring(0, 1).toUpperCase(),
-                    pokemon.substring(1))
+        fun bindImage(imgurImage: ImgurImage) {
+            //itemView.image_preview
+            selectedImage = imgurImage
+            imgurPreview?.bottom = 0
+            itemView.preview_progress.visibility = View.VISIBLE
+            imgurPreview?.loadImageFromUrl(imgurImage.link, itemView.preview_progress)
+            imgurTitle?.setText(imgurImage.title)
         }
     }
-
 }
