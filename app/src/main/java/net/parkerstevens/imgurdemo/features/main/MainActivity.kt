@@ -2,6 +2,7 @@ package net.parkerstevens.imgurdemo.features.main
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
@@ -74,13 +75,30 @@ class MainActivity : BaseActivity(), MainMvpView, ImgurAdapter.ClickListener {
         }
     }
 
-    override fun showPage(imgurs: List<ImgurImage>, page : Int) {
+    override fun showPage(imgurs: List<ImgurImage>, page: Int) {
         imgurAdapter.apply {
             if (page == 1) clearRecycler()
-            imagesList = imagesList.plus(imgurs)
-            notifyItemRangeInserted(imagesList.size - (imgurs.size), imgurs.size)
-            //notifyDataSetChanged()
+            val cleanedImages = cleanImages(imgurs)
+            imagesList = imagesList.plus(cleanedImages)
+            notifyItemRangeInserted(imagesList.size - (cleanedImages.size), imgurs.size)
         }
+    }
+
+    private fun cleanImages(imgurs: List<ImgurImage>): List<ImgurImage> {
+        val sanitizedImages = mutableListOf<ImgurImage>()
+
+        for (imgurTop in imgurs) {
+            // find albums and pull out each image
+            imgurTop.images?.forEach { img ->
+                // assign title to each album image
+                img.title = imgurTop.title;
+                // filter out .mp4 files
+                if (!img.link.endsWith(".mp4")) sanitizedImages.add(img)
+            }
+            // add images not part of an album
+            if (imgurTop.isAlbum != true && !imgurTop.link.endsWith(".mp4")) sanitizedImages.add(imgurTop)
+        }
+        return sanitizedImages
     }
 
     override fun listenText(emitter: ObservableEmitter<String>) {
@@ -109,6 +127,18 @@ class MainActivity : BaseActivity(), MainMvpView, ImgurAdapter.ClickListener {
         } else {
             progress_bar?.visibility = View.INVISIBLE
         }
+    }
+
+    override fun showError(message: String) {
+        val errorAlert = AlertDialog.Builder(this@MainActivity).create()
+        errorAlert.apply {
+            setTitle(R.string.error)
+            setMessage(message)
+            setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.ok), {
+                dialogInterface, i -> dismiss()
+            })
+        }
+        errorAlert.show()
     }
 
     override fun onImageClick(url: String, title: String) {

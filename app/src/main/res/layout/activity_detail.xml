@@ -28,6 +28,13 @@
             android:theme="@style/AppTheme.TitleText"
             tools:text="Image Title"/>
 
+        <ProgressBar
+            android:id="@+id/detail_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"/>
+
     </LinearLayout>
 
     <android.support.design.widget.AppBarLayout

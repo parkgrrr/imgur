@@ -84,7 +84,7 @@ data class ImgurImage(var id: String,
     @Json(name = "in_most_viral")
     var inMostViral: Boolean? = null
     @Json(name = "images")
-    var images: List<ImageData>? = null
+    var images: List<ImgurImage>? = null
 
 }
 

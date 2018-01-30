@@ -13,4 +13,6 @@ interface MainMvpView : MvpView {
     fun listenText(emitter: ObservableEmitter<String>)
 
     fun clearRecycler()
+
+    fun showError(message: String)
 }

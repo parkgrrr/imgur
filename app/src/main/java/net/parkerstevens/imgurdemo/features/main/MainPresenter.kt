@@ -29,6 +29,7 @@ constructor(private val dataManager: DataManager) : BasePresenter<MainMvpView>()
                 }) { throwable ->
                     mvpView?.apply {
                         Timber.e(throwable.localizedMessage)
+                        showError(throwable.localizedMessage)
                     }
                 }
         addDisposable(disposable)
