@@ -15,15 +15,17 @@ import timber.log.Timber
 fun ImageView.loadImageFromUrl(url: String, progressbar: ProgressBar? = null) {
     Glide.with(context)
             .load(url)
-            .listener(object: RequestListener<Drawable?> {
+            .listener(object : RequestListener<Drawable?> {
                 override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable?>?, isFirstResource: Boolean): Boolean {
                     Timber.e(e?.localizedMessage)
                     e?.printStackTrace()
-                    return false                }
+                    return false
+                }
 
                 override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable?>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                     progressbar?.visibility = View.GONE
-                    return false                }
+                    return false
+                }
             })
             .into(this)
 }

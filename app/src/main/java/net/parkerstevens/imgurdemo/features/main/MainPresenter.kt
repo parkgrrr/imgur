@@ -20,7 +20,7 @@ constructor(private val dataManager: DataManager) : BasePresenter<MainMvpView>()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { mvpView?.showProgress(true) }
-                .doFinally {mvpView?.showProgress(false)}
+                .doFinally { mvpView?.showProgress(false) }
                 .subscribe({ response ->
                     mvpView?.apply {
                         showPage(response, page)

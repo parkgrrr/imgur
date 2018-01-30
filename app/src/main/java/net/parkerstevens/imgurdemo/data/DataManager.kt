@@ -19,8 +19,6 @@ constructor(private val imgurApi: ImgurApi) {
         return imgurApi.getImgurPage(page, search, auth)
                 .toObservable()
                 .flatMapIterable { t: Imgurs -> t.data }
-                //.flatMapIterable { t:ImgurImage -> if(t.images.size > 0) t.images }
-                //.filter { t: ImgurImage -> t.isAlbum != true }
                 .toList()
     }
 }

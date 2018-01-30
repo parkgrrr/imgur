@@ -5,7 +5,6 @@ import android.support.annotation.LayoutRes
 import android.support.v4.util.LongSparseArray
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import butterknife.ButterKnife
 import net.parkerstevens.imgurdemo.ImgurApplication
 import net.parkerstevens.imgurdemo.injection.component.ActivityComponent
 import net.parkerstevens.imgurdemo.injection.component.ConfigPersistentComponent
@@ -37,7 +36,6 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layoutId())
-        ButterKnife.bind(this)
         // Create the ActivityComponent and reuses cached ConfigPersistentComponent if this is
         // being called after a configuration change.
         activityId = savedInstanceState?.getLong(KEY_ACTIVITY_ID) ?: NEXT_ID.getAndIncrement()
@@ -56,7 +54,8 @@ abstract class BaseActivity : AppCompatActivity() {
         activityComponent?.inject(this)
     }
 
-    @LayoutRes abstract fun layoutId(): Int
+    @LayoutRes
+    abstract fun layoutId(): Int
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

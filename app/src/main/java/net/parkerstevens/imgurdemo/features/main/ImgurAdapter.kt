@@ -4,10 +4,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import butterknife.BindView
-import butterknife.ButterKnife
 import kotlinx.android.synthetic.main.item_image.view.*
 import net.parkerstevens.imgurdemo.R
 import net.parkerstevens.imgurdemo.data.model.ImgurImage
@@ -48,26 +44,18 @@ constructor() : RecyclerView.Adapter<ImgurAdapter.ImgurViewHolder>() {
 
         lateinit var selectedImage: ImgurImage
 
-        @BindView(R.id.image_preview)
-        @JvmField var imgurPreview: ImageView? = null
-
-        @BindView(R.id.image_title)
-        @JvmField var imgurTitle: TextView? = null
-
         init {
-            ButterKnife.bind(this, itemView)
             itemView.setOnClickListener {
                 clickListener?.onImageClick(selectedImage.link, selectedImage.title ?: " ")
             }
         }
 
         fun bindImage(imgurImage: ImgurImage) {
-            //itemView.image_preview
             selectedImage = imgurImage
-            imgurPreview?.bottom = 0
-            itemView.preview_progress.visibility = View.VISIBLE
-            imgurPreview?.loadImageFromUrl(imgurImage.link, itemView.preview_progress)
-            imgurTitle?.setText(imgurImage.title)
+            itemView.image_preview?.bottom = 0
+            itemView.preview_progress?.visibility = View.VISIBLE
+            itemView.image_preview?.loadImageFromUrl(imgurImage.link, itemView.preview_progress)
+            itemView.image_title?.setText(imgurImage.title)
         }
     }
 }

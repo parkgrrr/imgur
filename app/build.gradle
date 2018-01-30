@@ -41,7 +41,6 @@ dependencies {
             okHttp          : "3.9.0",
             retrofit        : '2.3.0',
             dagger          : '2.12',
-            butterKnife     : '8.8.1',
             rxKotlin        : '2.2.0',
             rxAndroid       : '2.0.1',
             timber          : '4.6.0',
@@ -69,7 +68,6 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$versions.okHttp"
     implementation "com.squareup.okhttp3:logging-interceptor:$versions.okHttp"
     implementation "com.google.dagger:dagger:$versions.dagger"
-    implementation "com.jakewharton:butterknife:$versions.butterKnife"
     implementation "com.jakewharton.timber:timber:$versions.timber"
     testImplementation "junit:junit:$versions.junit"
     androidTestImplementation "com.android.support.test:runner:$versions.testRunner"
@@ -77,7 +75,6 @@ dependencies {
 
     kapt "com.github.bumptech.glide:compiler:$versions.glide"
     kapt "com.google.dagger:dagger-compiler:$versions.dagger"
-    kapt "com.jakewharton:butterknife-compiler:$versions.butterKnife"
 
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 }

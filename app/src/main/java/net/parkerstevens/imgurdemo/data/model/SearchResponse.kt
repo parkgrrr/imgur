@@ -3,6 +3,7 @@ package net.parkerstevens.imgurdemo.data.model
 import android.annotation.SuppressLint
 import android.os.Parcelable
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 data class Imgurs(
@@ -23,7 +24,7 @@ data class ImgurImage(var id: String,
                       @Json(name = "link")
                       var link: String = "") : Parcelable {
 
-    @Json(name = "description")
+    /*@Json(name = "description")
     var description: Any? = null
     @Json(name = "datetime")
     var datetime: Int? = null
@@ -50,10 +51,11 @@ data class ImgurImage(var id: String,
     @Json(name = "points")
     var points: Int? = null
     @Json(name = "score")
-    var score: Int? = null
+    var score: Int? = null*/
+    @IgnoredOnParcel
     @Json(name = "is_album")
     var isAlbum: Boolean? = null
-    @Json(name = "vote")
+    /*@Json(name = "vote")
     var vote: Any? = null
     @Json(name = "favorite")
     var favorite: Boolean? = null
@@ -82,7 +84,8 @@ data class ImgurImage(var id: String,
     @Json(name = "ad_url")
     var adUrl: String? = null
     @Json(name = "in_most_viral")
-    var inMostViral: Boolean? = null
+    var inMostViral: Boolean? = null*/
+    @IgnoredOnParcel
     @Json(name = "images")
     var images: List<ImgurImage>? = null
 

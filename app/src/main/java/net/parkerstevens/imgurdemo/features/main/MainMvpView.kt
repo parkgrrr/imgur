@@ -8,7 +8,7 @@ interface MainMvpView : MvpView {
 
     fun showProgress(show: Boolean)
 
-    fun showPage(imgurs: List<ImgurImage>, page:Int)
+    fun showPage(imgurs: List<ImgurImage>, page: Int)
 
     fun listenText(emitter: ObservableEmitter<String>)
 

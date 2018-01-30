@@ -22,8 +22,10 @@ import javax.inject.Inject
 class MainActivity : BaseActivity(), MainMvpView, ImgurAdapter.ClickListener {
 
     private val IMAGE_BUNDLE = "imageListBundle"
-    @Inject lateinit var imgurAdapter: ImgurAdapter
-    @Inject lateinit var mainPresenter: MainPresenter
+    @Inject
+    lateinit var imgurAdapter: ImgurAdapter
+    @Inject
+    lateinit var mainPresenter: MainPresenter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +37,13 @@ class MainActivity : BaseActivity(), MainMvpView, ImgurAdapter.ClickListener {
 
         imgurAdapter.clickListener = this
 
-        reset_button.setOnClickListener { v -> search_edit.setText("");  }
+        reset_button.setOnClickListener { v -> search_edit.setText(""); }
 
         recycler_imgur?.apply {
             val newLayoutManager = LinearLayoutManager(context)
             layoutManager = newLayoutManager
             adapter = imgurAdapter
-            scrollListener = object: EndlessRecyclerViewScrollListener(layoutManager = newLayoutManager) {
+            scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager = newLayoutManager) {
                 override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                     if (page > 1) mainPresenter.getImgurPage(search_edit.text.toString(), page)
                 }
@@ -61,7 +63,6 @@ class MainActivity : BaseActivity(), MainMvpView, ImgurAdapter.ClickListener {
 
         mainPresenter.createTextChangeObservable()
     }
-
 
 
     override fun layoutId() = R.layout.activity_main
@@ -141,8 +142,8 @@ class MainActivity : BaseActivity(), MainMvpView, ImgurAdapter.ClickListener {
         errorAlert.apply {
             setTitle(R.string.error)
             setMessage(message)
-            setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.ok), {
-                dialogInterface, i -> dismiss()
+            setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.ok), { dialogInterface, i ->
+                dismiss()
             })
         }
         errorAlert.show()
