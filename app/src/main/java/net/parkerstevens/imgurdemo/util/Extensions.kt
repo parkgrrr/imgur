@@ -1,7 +1,9 @@
 package net.parkerstevens.imgurdemo.util
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import com.bumptech.glide.Glide
@@ -28,4 +30,15 @@ fun ImageView.loadImageFromUrl(url: String, progressbar: ProgressBar? = null) {
                 }
             })
             .into(this)
+}
+
+fun View.showKeyboard() {
+    this.requestFocus()
+    val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+}
+
+fun View.hideKeyboard() {
+    val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
 }

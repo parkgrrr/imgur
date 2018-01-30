@@ -15,6 +15,7 @@ import net.parkerstevens.imgurdemo.data.model.ImgurImage
 import net.parkerstevens.imgurdemo.features.base.BaseActivity
 import net.parkerstevens.imgurdemo.features.common.EndlessRecyclerViewScrollListener
 import net.parkerstevens.imgurdemo.features.detail.DetailActivity
+import net.parkerstevens.imgurdemo.util.showKeyboard
 import java.util.*
 import javax.inject.Inject
 
@@ -37,7 +38,7 @@ class MainActivity : BaseActivity(), MainMvpView, ImgurAdapter.ClickListener {
 
         imgurAdapter.clickListener = this
 
-        reset_button.setOnClickListener { v -> search_edit.setText(""); }
+        reset_button.setOnClickListener { v -> search_edit.setText(""); search_edit.showKeyboard() }
 
         recycler_imgur?.apply {
             val newLayoutManager = LinearLayoutManager(context)
