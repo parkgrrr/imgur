@@ -21,9 +21,10 @@ import javax.inject.Inject
 
 class MainActivity : BaseActivity(), MainMvpView, ImgurAdapter.ClickListener {
 
+    private val IMAGE_BUNDLE = "imageListBundle"
     @Inject lateinit var imgurAdapter: ImgurAdapter
     @Inject lateinit var mainPresenter: MainPresenter
-    lateinit var scrollListener: EndlessRecyclerViewScrollListener
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,8 @@ class MainActivity : BaseActivity(), MainMvpView, ImgurAdapter.ClickListener {
         setSupportActionBar(main_toolbar)
 
         imgurAdapter.clickListener = this
+
+        reset_button.setOnClickListener { v -> search_edit.setText("");  }
 
         recycler_imgur?.apply {
             val newLayoutManager = LinearLayoutManager(context)
@@ -48,7 +51,7 @@ class MainActivity : BaseActivity(), MainMvpView, ImgurAdapter.ClickListener {
 
         var imgurList: List<ImgurImage>? = null
         savedInstanceState?.apply {
-            imgurList = getParcelableArrayList("test")
+            imgurList = getParcelableArrayList(IMAGE_BUNDLE)
         }
 
         imgurList?.apply {
@@ -56,7 +59,7 @@ class MainActivity : BaseActivity(), MainMvpView, ImgurAdapter.ClickListener {
             imgurAdapter.notifyDataSetChanged()
         }
 
-        val textChangeObservable = mainPresenter.createTextChangeObservable()
+        mainPresenter.createTextChangeObservable()
     }
 
 
@@ -71,7 +74,10 @@ class MainActivity : BaseActivity(), MainMvpView, ImgurAdapter.ClickListener {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         imgurAdapter.imagesList.apply {
-            outState.putParcelableArrayList("test", this as ArrayList<out Parcelable>)
+            if (this.isNotEmpty()) {
+                outState.putParcelableArrayList(IMAGE_BUNDLE, this as ArrayList<out Parcelable>)
+
+            }
         }
     }
 
@@ -107,6 +113,7 @@ class MainActivity : BaseActivity(), MainMvpView, ImgurAdapter.ClickListener {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
             override fun onTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 s?.toString()?.let { emitter.onNext(it) }
+                if (s.isNullOrEmpty()) clearRecycler()
             }
         }
         search_edit.addTextChangedListener(textWatcher)
